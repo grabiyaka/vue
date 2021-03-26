@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Туры</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        .red {
+            background: red ;
+        }
+        .blue {
+            background: blue ;
+        }
+        .green {
+            background: green ;
+        }
+        .yellow {
+            background: yellow ;
+        }
+        .orange {
+            background: orange ;
+        }
+        .purple {
+            background: purple ;
+        }
+        .pink {
+            background: pink ;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+
+        <input v-model="ololo">
+
+
+        <h3> {{ selected }} </h3>
+
+
+        <input type="text" v-model="search">
+
+
+        <select :class="ololo" v-model="selected">
+
+            <option :value="country.id" v-for="country in api.countries" v-if="ddd(country.name)">
+
+               {{ country.name }}
+
+            </option>
+
+        </select>
+
+        <select :class="ololo">
+            <option :value="reg.name" v-if="selected == reg.country_id" v-for="reg in api.regions">
+
+                {{ reg.name }}
+
+            </option>
+        </select>
+
+    </div>
+    <script>
+
+        let country = new Vue ({
+            el: "#app",
+            data: {
+                api: [],
+                ololo: "pink",
+                selected: "109",
+                search: "Польша"
+            },
+            computed: {
+                
+            },
+            methods: {
+                ddd(e){
+                    if(this.search){
+                        return e == this.search  
+
+                    } else {
+                        return true
+                    }
+                    
+                
+                },
+                get(){
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("GET", "init.json")
+                    xhr.send()
+                    xhr.onload = () => {
+                        console.log(xhr.status)
+                        this.api = JSON.parse(xhr.response)
+                    };
+                }
+            },
+            mounted() {
+                this.get()
+            },
+        })
+
+    </script>
+
+</body>
+</html>

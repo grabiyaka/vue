@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <style>
+        
+    </style>
+    <div id="app" >
+        <h2>{{ api.books[0].chapters[0].verses[0].text }}</h2>
+
+        <input v-model="search" type="text" placeholder="search">
+
+        <div v-if="searched_verses.length">
+            <div v-for="verse in searched_verses" >
+                <h3>
+                    {{ verse.reference }}
+                </h3>
+                <p>
+                {{ verse.text }}
+                </p>
+            </div>
+        </div>
+
+        
+        <select v-model="selected_book">
+            <!-- задаем значение selected_book -->
+            <option v-for="(book, number) in api.books" :value="number">
+                    {{ book.book }}
+            </option>
+        </select>
+        <select v-model="selected_chapter">
+            <!-- задаем значение selected_chapter -->
+            <option v-for="(chapter, index) in api.books[selected_book].chapters" :value="index">
+                {{ chapter.chapter }}
+            </option>
+
+        </select>
+
+        <div>
+            <h3>{{ api.books[selected_book].chapters[selected_chapter].reference }}</h3>
+             <p v-for="(verse, n) in api.books[selected_book].chapters[selected_chapter].verses">
+                 {{ n + 1 }} - {{ verse.text }}
+             </p>
+        </div>
+    </div>
+    <script>
+        let app = new Vue ({
+            el: "#app",
+            data: {
+                api: {},
+                selected_book: 0,
+                selected_chapter: 0,
+                search: "",
+                searched_verses: []
+
+            },
+            methods: {
+                get(){
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("GET", "https://raw.githubusercontent.com/bcbooks/scriptures-json/master/new-testament.json")
+                    xhr.send()
+                    xhr.onload = () => {
+                        console.log(xhr.status)
+                        this.api = JSON.parse(xhr.response)
+                        console.log(this.api)
+                    };
+                }
+            }, 
+            mounted() {
+                this.get()
+            },
+            watch:{
+                search(v){
+                    console.log(this.search);
+                    for(verse of this.api.books[this.selected_book].chapters[this.selected_chapter].verses){
+                        if(v.length > 4){
+                            if (verse.text.toLowerCase().search(v.toLowerCase()) !== -1){
+                                this.searched_verses.push({
+                                    text: verse.text,
+                                    reference: verse.reference
+                                })
+                            }
+                        } else {
+                            this.searched_verses = []
+                        }
+                    }
+                }
+            }     
+        })
+    </script>
+</body>
+</html>

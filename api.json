@@ -1,0 +1,40 @@
+[
+                    {
+                        "name": "Vasya",
+                        "messages": [
+                            {
+                                "text": "hello",
+                                "date": "24.02.2021"
+                            },
+                            {
+                                "text": "hor are you?",
+                                "date": "24.02.2021"
+                            },
+                            {
+                                "text": "eheheheh",
+                                "date": "24.02.2021"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Petiya",
+                        "messages": []
+                    },
+                    {
+                        "name": "Grisha",
+                        "messages": [
+                            {
+                                "text": "hello",
+                                "date": "24.02.2021"
+                            },
+                            {
+                                "text": "hor are you?",
+                                "date": "24.02.2021"
+                            },
+                            {
+                                "text": "eheheheh",
+                                "date": "24.02.2021"
+                            }
+                        ]
+                    }
+                ] 

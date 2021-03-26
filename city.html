@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>city</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-for="(region, n) in api[0].regions">
+            <p v-for="city in region.cities">
+              <a :href="`https://www.google.com.ua/maps/@${city.lat},${city.lng},12z?hl=ru`">  {{ city.name }} </a>
+            </p>
+        </div>
+    </div>
+    <script>
+        let app= new Vue({
+            el: "#app",
+            data: {
+                api: []
+            },
+            methods: {
+                get(){
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("GET", "https://gist.githubusercontent.com/alex-oleshkevich/1509c308fabab9e104b5190dab99a77b/raw/b20bd8026deec00205a57d395c0ae1f75cc387bb/ua-cities.json")
+                    xhr.send()
+                    xhr.onload = () => {
+                        console.log(xhr.status)
+                        this.api = JSON.parse(xhr.response)
+                        console.log(this.api)
+                    };
+                }
+            },
+            mounted() {
+                this.get()
+            }, 
+        })
+    </script>
+</body>
+</html>

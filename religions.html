@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>religions</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        function post(url, data, callback){
+      
+            let xhr = new XMLHttpRequest();
+                    xhr.open("GET", url)
+                    xhr.send()
+                    xhr.onload = () => {
+                        callback(xhr.response)
+                    };
+      
+        }
+    </script>
+</head>
+<body>
+    <div id="app">
+        <div v-html="api.text.div">
+             
+        </div>
+    </div>
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                api: {}
+            },
+            methods:{
+                get(){
+                    post("religious.json", 
+                        null, msg => {
+                            this.api=JSON.parse(msg)
+                        })
+                }
+            },
+            mounted(){
+                this.get()
+            }
+
+        })
+    </script>
+</body>
+</html>

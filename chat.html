@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <h1> Chat </h1>
+
+   
+
+    <div id="chat">
+
+        <div v-for="member in members"> 
+            <h2> {{ member.name }} </h2>
+
+            <p v-for="message in member.messages">
+                {{ message.text }} {{ message.date }}
+            </p>
+        </div>
+        
+    </div>
+    
+    <script>
+        let chat = new Vue ({
+            el: "#chat",
+            data: {
+                members: []
+            },
+            methods: {
+                get(){
+                    console.log(1)
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("GET", "api.json")
+                    xhr.send()
+                    xhr.onload = () => {
+                        console.log(xhr.status)
+                        this.members = JSON.parse(xhr.response)
+                    };
+                }
+
+            },
+            mounted() {
+                this.get()
+            }
+        })
+    </script>
+
+</body>
+</html>
